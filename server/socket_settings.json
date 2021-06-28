@@ -1,0 +1,11 @@
+{
+    "HOST": "localhost",
+    "PORT": "10001",
+    "SERVER_EMAIL": "server@gmail.com",
+    "DEFAULT_CLIENT_EMAIL" : "test2@gmail.com",
+    "DEFAULT_PASSWORD" : "zaq1@WSX",
+    "DEBUG" : false,
+    "P": 23,
+    "G": 9
+
+}
