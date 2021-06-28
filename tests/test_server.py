@@ -9,7 +9,7 @@ django.setup()
 
 from server.communication_server import CommunicationServer
 from server.models import *
-from server.ClientSide import ClientServer
+from Client.ClientSide import ClientServer
 
 class TestServer(TestCase):
     def test_server_listen(self):

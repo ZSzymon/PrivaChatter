@@ -10,7 +10,7 @@ django.setup()
 from server.communication_server import CommunicationServer
 from server.models import *
 from server.criptor import Criptor
-from server.ClientSide import ClientServer
+from Client.ClientSide import ClientServer
 from server.tools import *
 class TestClientSide(TestCase):
     def test_register_positive(self):

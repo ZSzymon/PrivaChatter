@@ -1,5 +1,5 @@
 import os
-from server.make_stand_alone import *
+from Client.make_stand_alone import *
 import json
 import socket
 from PrivaChatterDjango.settings import BASE_DIR
@@ -7,7 +7,7 @@ from collections import defaultdict
 from server.models import *
 #from server.tools import *
 from _thread import *
-from server.criptor import Criptor
+from Client.criptor import Criptor
 import threading
 
 """ 
@@ -123,7 +123,7 @@ class ClientServer:
     def __clear_messages_dict(self):
         """Czyszczenie danych po użytkowniku"""
         if self.received_messages:
-            del self.receive_message
+            del self.received_messages
         if self.sent_messages:
             del self.sent_messages
         self.__initialize_messages_dict()
@@ -347,7 +347,10 @@ class ClientServer:
 
 
     def get_messages(self, friend_email):
-        """get messages as list"""
+        """Pobierz wiadomości z słownika. Wiadmości uwcześniej muszą zostać pobrane za pomocą metody download_message_from_friend.
+
+        :param friend_email: email osoby.
+        """
         if self.received_messages:
             return self.received_messages[friend_email]
         else:

@@ -17,6 +17,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\Client\ClientSide.py">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\docs\conf.py">
           <value>
             <Attribute>

@@ -3,7 +3,7 @@ import sys
 import os
 import logging
 
-from server.ClientSide import ClientServer
+from Client.ClientSide import ClientServer
 
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtWidgets import (QWidget, QLCDNumber, QSlider,
