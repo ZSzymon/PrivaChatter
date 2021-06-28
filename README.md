@@ -1,4 +1,4 @@
-"# PrivaChatter"
+PrivChatter zadbamy o twoje bezpieczeństwo.
 
 Instalacja: 
 
