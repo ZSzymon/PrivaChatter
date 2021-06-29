@@ -86,6 +86,10 @@ class CommunicationServer:
             for receiver in receivers:
                 self.messages_dict[(email, receiver)].clear()
 
+    def remove_keys_dict_pair(self, pair):
+        with self.keys_lock:
+            self.keys_dict.pop(pair)
+
     def get_server_account(self):
         return self.server_account
 
@@ -195,9 +199,13 @@ class CommunicationServer:
         :param message: Message object
         :return:
         """
+
+        ## tworzenie odpowiedzi. Nie związane z samym algorytmem
         response = message.deepcopy()
         response.swap_sender_receiver()
         response.set_action_type(ActionType.RESPONSE)
+
+        #Jako data podanie kluczy publicznych.
         if message.get_action_type() == ActionType.DOWNLOAD_KEYS:
             data = (self.socket_settings["P"], self.socket_settings["G"])
             response.data = data
@@ -210,11 +218,12 @@ class CommunicationServer:
         :param message:
         :return: response
         """
+        ## tworzenie odpowiedzi. Nie związane z samym algorytmem
         response = message.deepcopy()
         response.swap_sender_receiver()
         response.set_action_type(ActionType.RESPONSE)
 
-        ## zapobiegnij wymianie kluczami z już zalogowanym użytkownikiem
+        ## zapobiegnij wymianie kluczami z już zalogowanym użytkownikiem (to znaczy już uwierzytelnionym.)
         if message.get_sender() in self.active_users:
             return self.get_error_massage_for_client(message.get_sender(),
                                                      "Not able to exchange keys.")
@@ -223,8 +232,10 @@ class CommunicationServer:
             sender_partial_key = message.data
             pair = self.server_account.email, message.get_sender()
             if not pair in self.keys_dict:
+                ##gdy DEBUG = False (w pliku socket_settings.) klucz prywatny jest generowany losowo.
                 self.keys_dict[pair] = Criptor(self.socket_settings["P"], self.socket_settings["G"], self.DEBUG, 1)
                 self.keys_dict[pair].generate_partial_key()
+            #wygenerowanie symetrycznego secret key za pomocą wspólnego częściowego klucza.
             self.keys_dict[pair].generate_full_key(sender_partial_key)
             response.data = self.keys_dict[pair].generate_partial_key()
         else:
@@ -320,7 +331,7 @@ class CommunicationServer:
         if message.headers["content_type"] == ContentType.AUTH_TUPLE:
             email = message.data[0]
             response = self.get_base_massage_for_client(email)
-
+            pair = self.server_account.email, message.get_sender()
             account = Account.objects.filter(email=email).first()
             if account:
                 account.is_active = False
@@ -328,6 +339,8 @@ class CommunicationServer:
             if email in self.active_users:
                 self.active_users.remove(email)
                 self.remove_messages(email)
+                self.remove_keys_dict_pair(pair)
+
                 response.headers['status_code'] = StatusCode.OK
             else:
                 response.headers['status_code'] = StatusCode.NOTLOGINYET

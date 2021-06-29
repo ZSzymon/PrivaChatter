@@ -40,3 +40,23 @@ Kilka słów odemnie:
 
 4.      Django jest użyte tylko w celu wykrzystania ich ORM. 
 
+Szyfrowanie jest zaimplementowane na podstawie algorytmu Diffie–Hellman key exchange.
+![img_6.png](img_6.png)
+
+
+Ustanowienie szyfrowanego połączenia:
+1.       Pobranie klucza publicznego w postaci wartości P oraz G. 
+   ![img_3.png](img_3.png)
+2.       Wymiana częściowymi kluczami oraz stworzenie klucza prywatnego.
+   ![img_4.png](img_4.png)
+3.       Od teraz komunikacja jest zaszyfrowana. 
+         Każda para posiada swój unikatowy klucz prywatny.
+         W momęcie gdy ktoś próbować będzie się podszyć. 
+         Serwer nie będzie w stanie odszyfrować wiadomości. 
+         Co poskutkuje brakiem reakcji. 
+   ![img_5.png](img_5.png)
+4.       Po stronie serwera występuje bardzo podobny proces. 
+5.       Na koniec każda para posiada swój unikatowy klucz prywatny oraz wspólny klucz pod nazwą secret_key.
+         Szyfrowanie oraz deszyfrowanie odbywa się za pomocą secret_key. 
+         Bez jego znajomości nie możliwe jest podszycie się. 
+6.       Nowe klucze są tworzone w momęcie logowania się.

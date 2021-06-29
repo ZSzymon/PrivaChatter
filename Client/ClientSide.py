@@ -188,6 +188,7 @@ class ClientServer:
 
             s.close()
         except socket.error:
+
             print('Connection not established.')
             print(sys.exc_info())
 
